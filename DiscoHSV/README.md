@@ -17,10 +17,9 @@ def geraDisco(tamImagem, raioDisco) :
 
 Começamos então criando um array de 3 dimensões, com todos valores igual a 1,  que será a base para nossa imagem a ser gerada (`DISCO`). As 2 primeiras dimensões representam a altura (X) e a largura (Y) da nossa imagem, já a terceira representa cada um dos valores HSV que temos em um ponto (pixel) da imagem. Depois, a partir dessa imagem, criamos 2 vetores que representam os indices dessa matriz em X (`vetorX`) e Y (`vetorY`) e definimos o centro da imagem (`centroImg`).
 ```python
-DISCO = np.zeros((tamImagem, tamImagem, 3), np.float32)
+DISCO = np.ones((tamImagem, tamImagem, 3), np.float32)
     
 vetorX, vetorY = np.ogrid[:tamImagem, :tamImagem]
-    
 centroImg = tamImagem/2
 ```
 
