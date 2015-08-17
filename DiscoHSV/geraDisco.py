@@ -2,41 +2,50 @@
 """
 Created on Wed Jul 01 08:17:09 2015
 
-@author: Rodrigo
+@author: Rodrigo Maller Martins
 """
 
 import numpy as np
 import cv2
 
+def mostraImg(nomeJanela, Imagem) :
+    
+    cv2.imshow(nomeJanela, Imagem)
+    cv2.waitKey()
+    cv2.destroyWindows(nomeJanela)
+
 def geraDisco(tamImagem, raioDisco) :
     
-    IMG = np.ones((tamImagem, tamImagem, 3), np.float32)
+    DISCO = np.ones((tamImagem, tamImagem, 3), np.float32)
     
-    vectorX, vectorY = np.ogrid[:tamImagem, :tamImagem]
+    vetorX, vetorY = np.ogrid[:tamImagem, :tamImagem]
     
-    centerX = tamImagem/2
-    centerY = tamImagem/2
+    centroX = tamImagem/2
+    centroY = tamImagem/2
     
-    DISC = ((vectorX - centerX) ** 2) + ((vectorY - centerY) ** 2)
+    discoSat = ((vetorX - centroX) ** 2) + ((vetorY - centroY) ** 2)
     
-    H = np.arctan2(vectorX.astype(np.float32) - centerX, vectorY.astype(np.float32) - centerY)
+    H = np.arctan2(vetorX.astype(np.float32) - centroX, vetorY.astype(np.float32) - centroY)
     H = np.degrees(H) + 90
     
     S = np.ones((tamImagem, tamImagem), np.float32)
-    S = DISC.astype(np.float32)/(raioDisco**2)    
+    S = discoSat.astype(np.float32)/(raioDisco**2)   
     
     V = np.ones((tamImagem, tamImagem), np.float32)
     
-    IMG[:, :, 0] = H
-    IMG[:, :, 1] = S
-    IMG[:, :, 2] = V
+    DISCO[:, :, 0] = H
+    DISCO[:, :, 1] = S
+    DISCO[:, :, 2] = V
     
-    IMG[DISC > raioDisco ** 2] = [0, 0, 0]
+    DISCO[discoSat > raioDisco ** 2] = [0, 0, 0]
     
-    IMG = cv2.cvtColor(IMG, cv2.COLOR_HSV2BGR)
+    DISCO = cv2.cvtColor(DISCO, cv2.COLOR_HSV2BGR)
     
-    cv2.imshow("Disco", IMG)
-    cv2.waitKey()
-    cv2.destroyWindow("Disco")
+    return DISCO
     
-geraDisco(600, 250)
+def main() :
+    disco = geraDisco(500, 200)
+    mostraImg("Disco HSV", disco)
+
+if __name__ == "__main__":
+    main()
