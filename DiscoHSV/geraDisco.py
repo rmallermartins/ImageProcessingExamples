@@ -11,25 +11,31 @@ import cv2
 def mostraImg(nomeJanela, Imagem) :
     
     cv2.imshow(nomeJanela, Imagem)
+
+def fechaImg(nomeJanela) :
+    
     cv2.waitKey()
-    cv2.destroyWindows(nomeJanela)
+    cv2.destroyWindow(nomeJanela)
 
 def geraDisco(tamImagem, raioDisco) :
     
-    DISCO = np.ones((tamImagem, tamImagem, 3), np.float32)
+    DISCO = np.zeros((tamImagem, tamImagem, 3), np.float32)
+    
+    cv2.imwrite("Imagens/disco1.png", DISCO)
     
     vetorX, vetorY = np.ogrid[:tamImagem, :tamImagem]
     
-    centroX = tamImagem/2
-    centroY = tamImagem/2
+    centroImg = tamImagem/2
+
+    H = np.arctan2(vetorX.astype(np.float32) - centroImg, vetorY.astype(np.float32) - centroImg)
+    H = np.degrees(H)    
     
-    discoSat = ((vetorX - centroX) ** 2) + ((vetorY - centroY) ** 2)
+    #print vetorX.astype(np.float32) - centroImg
     
-    H = np.arctan2(vetorX.astype(np.float32) - centroX, vetorY.astype(np.float32) - centroY)
-    H = np.degrees(H) + 90
+    discoSat = ((vetorX - centroImg) ** 2) + ((vetorY - centroImg) ** 2)
     
     S = np.ones((tamImagem, tamImagem), np.float32)
-    S = discoSat.astype(np.float32)/(raioDisco**2)   
+    S = discoSat.astype(np.float32)/(raioDisco ** 2)   
     
     V = np.ones((tamImagem, tamImagem), np.float32)
     
@@ -46,6 +52,7 @@ def geraDisco(tamImagem, raioDisco) :
 def main() :
     disco = geraDisco(500, 200)
     mostraImg("Disco HSV", disco)
+    fechaImg("Disco HSV")
 
 if __name__ == "__main__":
     main()
