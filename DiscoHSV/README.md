@@ -24,9 +24,9 @@ vetorX, vetorY = np.ogrid[:tamImagem, :tamImagem]
 centroImg = tamImagem/2
 ```
 
-Se pedirmos para o programa mostrar a imagem nesse ponto, teremos uma imagem toda preta pois `DISCO` foi inicializada com zeros:
+Se pedirmos para o programa mostrar a imagem nesse ponto, teremos uma imagem toda branca pois `DISCO` foi inicializada com uns:
 
-![alt tag](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco1.png)
+![disco1](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco1.png)
 
 Porém, já temos o suficiente para criar nosso valores para _Hue_. Isso é feito primeiramente utilizando a função `arctang2(x1, x2)` do numpy, ela é uma função que retorna o arc tangente de `x1/x2` escolhendo o quadrante correto, assim sempre retornando um valor positivo do ângulo em radianos. Aplicamos essa função ao `vetorX` e ao `vetorY` ambos com seus valores subtraídos do `centroImg`. E por final, transformamos de radianos para graus com a função `degrees(x)`.
 
@@ -45,7 +45,7 @@ DISCO = cv2.svtColor(DISCO, cv2.COLOR_HSV2BGR)
 
 E temos como resultado:
 
-![alt tag](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco2.png)
+![disco2](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco2.png)
 
 Agora vamos criar nossa matriz para a _Saturation_, precisamos que essa matriz faça um degradê do centro da imagem até o raio do nosso disco, de forma que no centro o valor da _Saturation_ seja 0 e vá crescendo conforme se distância do centro. Começamos criando o disco que representará nossos valores em relação ao centro da imagem, para isso fazemos a soma entre os vetores `vetorX` e `vetorY` subtraídos do `centroImg` (coloca 0 no centro) elevando cada um ao quadrado para retirar números negativos. A nossa _Saturation_ recebe esse disco nomalizado em relação ao raio, fazendo os valores irem de 0 até 1, do centro até a borda:
 
@@ -57,7 +57,7 @@ S = discoSat.astype(np.float32)/(raioDisco ** 2)
 
 A imagem produzida pela _Saturation_ seria:
 
-![alt tag](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco3.png)
+![disco3](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco3.png)
 
 E se aplicarmos ela a nossa imagem de saída antes da conversão para RGB:
 
@@ -67,7 +67,7 @@ DISCO[:, :, 1] = S
 
 Temos:
 
-![alt tag](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco4.png)
+![disco4](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco4.png)
 
 Para nosso caso, o _Value_ teria todos valores em 1 (100%) e nossa Imagem já foi toda inicializada com 1, assim não havendo necessidade de cria-lo e coloca-lo em nossa imagem.
 
@@ -79,4 +79,4 @@ DISCO[discoSat > raioDisco ** 2] = [0, 0, 0]
 
 Assim temos nossa imagem final:
 
-![alt tag](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco5.png)
+![disco5](https://github.com/rmallermartins/ProcImagens/blob/master/DiscoHSV/Imagens/disco5.png)
