@@ -21,7 +21,7 @@ def geraDisco(tamImagem, raioDisco) :
     
     DISCO = np.zeros((tamImagem, tamImagem, 3), np.float32)
     
-    cv2.imwrite("Imagens/disco1.png", DISCO)
+    #cv2.imwrite("Imagens/disco1.png", DISCO)
     
     vetorX, vetorY = np.ogrid[:tamImagem, :tamImagem]
     
