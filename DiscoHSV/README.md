@@ -50,7 +50,6 @@ Agora vamos criar nossa matriz para a _Saturation_, precisamos que essa matriz f
 
 ```python
 discoSat = ((vetorX - centroImg) ** 2) + ((vetorY - centroImg) ** 2)
-
 S = discoSat.astype(np.float32)/(raioDisco ** 2)
 ```
 
